@@ -21,7 +21,7 @@
 </head>
 <body class="text-center">
     <div class="form-imageContainer mt-5">
-        <form method="post" enctype="multipart/form-data">
+        <form class="forms" method="post" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             {% for error in form.photo.errors %}
                 <span style="color:red">{{error}}</span>
@@ -35,14 +35,18 @@
                 </div>
             </div>
         </form>
+        <div class="col-12 image-error-container">
     {% if plan is iterable  %}
-        <div class="mt-5">
+        <div class="mt-5 col-md-6 col-12">
         {% if plan|length < 1%}
         <span>the image is compliant</span>
         {% endif %}
+
         {% if plan|length > 0%}
         {% for item in plan %}
-            <p>{{item}}</p>
+        {% set data = item.items()|list %}
+        {% set val = data[0] %}
+            <p>The item at {{val[1]}} should be {{val[0]}}</p>
         {% endfor %}
         {% endif %}
         </div>
@@ -50,10 +54,11 @@
  
    
     {% if file_url %}
-    <div class="mt-5">
-        <img src="{{ file_url }}" style="width: 400px;"/>
+    <div class="mt-5 col-md-6 col-12">
+        <img src="{{ file_url }}" class="image-renderer"/>
     </div>
     {% endif %}
-    </div class="mt-5">
+    </div>
+    </div>
 </body>
 </html>
