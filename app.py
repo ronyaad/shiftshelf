@@ -1,15 +1,12 @@
 from flask import Flask
 import matplotlib.pyplot as plt
-from detecto import core, utils, visualize
+from detecto import  utils
 from detecto.core import Model
 import os
 import helpers
 
-app = Flask(__name__)
-
-import logging
 import os,shutil
-from flask import Flask, flash, render_template, request, send_from_directory,url_for
+from flask import Flask, flash, render_template, send_from_directory,url_for
 from flask_uploads import IMAGES, UploadSet, configure_uploads
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
