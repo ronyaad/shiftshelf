@@ -50,6 +50,8 @@ class ObjectDetectionModel():
     def getModel(self):
         return Model.load('detecto.pth', self.labels)
 
+detector_model = ObjectDetectionModel().getModel()
+
 def get_plan(filename):
     planogram = [['Nescafe-Bag-2in1', 'Nescafe-Bag-2in1'],
                 ['Nescafe-Bag-Cappuccino', 'Nescafe-Glass-Yellow'],
@@ -57,7 +59,7 @@ def get_plan(filename):
                 'Nestle-Bag-CoffeeMate',
                 'Nestle-Plastic-CoffeeMate']]
     obj = ObjectDetectionModel()
-    return helpers.getDifferenceGrid(obj.getModel(), utils.read_image(app.config["UPLOADED_PHOTOS_DEST"] + "/" +filename), planogram)
+    return helpers.getDifferenceGrid(detector_model, utils.read_image(app.config["UPLOADED_PHOTOS_DEST"] + "/" +filename), planogram)
    
     
 @app.route('/uploads/<filename>')
@@ -68,7 +70,7 @@ def get_file(filename):
     image = utils.read_image(app.config["UPLOADED_PHOTOS_DEST"] + "/" +filename)
     images.append(image)
     obj = ObjectDetectionModel()
-    helpers.plot_prediction_grid_with_ImageSave(obj.getModel(),images, figsize=(16, 12))
+    helpers.plot_prediction_grid_with_ImageSave(detector_model,images, figsize=(16, 12))
     return send_from_directory('','result.png')
 
 @app.route('/', methods=['GET', 'POST'])
