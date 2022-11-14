@@ -35,8 +35,9 @@
                 </div>
             </div>
         </form>
+        <div class="col-12 image-error-container">
     {% if plan is iterable  %}
-        <div class="mt-5">
+        <div class="mt-5 col-6">
         {% if plan|length < 1%}
         <span>the image is compliant</span>
         {% endif %}
@@ -50,10 +51,11 @@
  
    
     {% if file_url %}
-    <div class="mt-5">
-        <img src="{{ file_url }}" style="width: 400px;"/>
+    <div class="mt-5 col-6">
+        <img src="{{ file_url }}" class="image-renderer"/>
     </div>
     {% endif %}
-    </div class="mt-5">
+    </div>
+    </div>
 </body>
 </html>
