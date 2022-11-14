@@ -119,6 +119,6 @@ def plot_prediction_grid_with_ImageSave(model, images, dim=None, figsize=None, s
                     ax.text(box[0] + 5, box[1] - 10, '{}: {}'
                             .format(label, round(score.item(), 2)), color='red')
                 ax.set_title('Image {}'.format(index))
-    plt.savefig('result.png')
+    plt.savefig('result.png', bbox_inches='tight', pad_inches=0)
     plt.close()
     path = 'result.png'
