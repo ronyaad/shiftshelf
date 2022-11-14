@@ -6,6 +6,8 @@ WORKDIR /classifier
 COPY requirements.txt ./requirements.txt
 RUN pip3 install -r requirements.txt
 # Copy the relevant directories
+COPY model/ ./model
+COPY . ./
 # Run the web server
 EXPOSE 8000
 ENV PYTHONPATH /classifier
