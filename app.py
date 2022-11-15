@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from detecto import  utils
 from detecto.core import Model
 import os
+import threading
 import helpers
 
 import os,shutil
@@ -11,8 +12,16 @@ from flask_uploads import IMAGES, UploadSet, configure_uploads
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
+from pyngrok import ngrok
+ngrok.set_auth_token("2FlltFrUyENOhEpY1jFToeGlFHV_4Uu5VudhuTWcDtExqY5Zx")
+os.environ["FLASK_ENV"] = "development"
 
 app = Flask(__name__)
+port = 5000
+public_url = ngrok.connect(port).public_url
+print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}\"".format(public_url, port))
+# Update any base URLs to use the public ngrok URL
+app.config["BASE_URL"] = public_url
 app.config["SECRET_KEY"] = os.urandom(24)
 app.config["UPLOADED_PHOTOS_DEST"] = "uploads"
 
@@ -82,10 +91,5 @@ def upload_file():
         plan = None
     return render_template('upload.html', form=form, file_url=file_url, plan=plan)
 
-def main():
-    """Run the Flask app."""
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
-    
-if __name__ == '__main__':
-    main()
+# Start the Flask server in a new thread
+threading.Thread(target=app.run, kwargs={"use_reloader": False}).start()
